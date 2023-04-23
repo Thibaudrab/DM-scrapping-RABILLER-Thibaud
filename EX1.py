@@ -1,23 +1,25 @@
-import requests
+iimport requests
 from bs4 import BeautifulSoup
 
-url = "https://www.scrapethissite.com/pages/simple/"
+url = 'https://www.scrapethissite.com/pages/simple/'
 
 response = requests.get(url)
-soup = BeautifulSoup(response.content, "html.parser")
 
-class_selector = "col-md-4 country"
-divs = soup.find_all("div", class_=class_selector)
+soup = BeautifulSoup(response.content, 'html.parser')
 
-for i, div in enumerate(divs, 1):
-    country_name = div.find("h3", class_="country-name").get_text(strip=True)
-    capital = div.find("span", class_="country-capital").get_text(strip=True)
-    population = div.find("span", class_="country-population").get_text(strip=True)
-    area = div.find("span", class_="country-area").get_text(strip=True)
+countries = soup.find_all('div', {'class': 'country'})
 
-    print(f"Div {i}:")
-    print(f"Country Name: {country_name}")
-    print(f"Capital: {capital}")
-    print(f"Population: {population}")
-    print(f"Area: {area}")
-    print("-" * 40)
+for country in countries:
+    name = country.find('h3').text.strip() if country.find('h3') is not None else ''
+    population = country.find('span', {'class': 'country-population'}).text.strip() if country.find('span', {'class': 'country-population'}) is not None else ''
+    capital = country.find('span', {'class': 'country-capital'}).text.strip() if country.find('span', {'class': 'country-capital'}) is not None else ''
+    area = country.find('span', {'class': 'country-area'}).text.strip() if country.find('span', {'class': 'country-area'}) is not None else ''
+
+    population = population.replace(',', '') if ',' in population else population
+    area = area.replace(' km²', '') if ' km²' in area else area
+
+    print('Nom :', name)
+    print('Population :', population)
+    print('Capitale :', capital)
+    print('Aire :', area + " km²")
+    print('\n')
