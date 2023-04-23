@@ -21,7 +21,7 @@ def recuperer_donnees(page, ecrivain_csv):
             if int(difference_buts) > 0 and int(buts_contre) < 300:
                 ecrivain_csv.writerow([nom, annee, victoires, defaites, defaites_ot, pourcentage_victoires, buts_pour, buts_contre, difference_buts])
 
-with open('resultats.csv', 'w', encoding='UTF8') as fichier_sortie:
+with open('result.csv', 'w', encoding='UTF8') as fichier_sortie:
     ecrivain_csv = csv.writer(fichier_sortie)
     ecrivain_csv.writerow(['Nom équipe, Année, Victoires, Défaites, Défaites OT, Pourcentage Victoires, Buts pour (BP), Buts contre (BC), +/-'])
 
